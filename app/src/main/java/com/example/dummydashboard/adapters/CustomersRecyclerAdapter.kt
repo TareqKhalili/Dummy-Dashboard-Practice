@@ -1,4 +1,4 @@
-package com.example.dummydashboard
+package com.example.dummydashboard.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +10,8 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.example.dummydashboard.models.CustomersViewModel
+import com.example.dummydashboard.R
 import com.example.dummydashboard.models.Customer
 
 

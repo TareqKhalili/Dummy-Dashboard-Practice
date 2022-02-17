@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.example.dummydashboard.adapters.CustomersRecyclerAdapter
 import com.example.dummydashboard.databinding.FragmentCustomersBinding
+import com.example.dummydashboard.models.CustomersViewModel
 
 class CustomersFragment : Fragment() {
     private var _binding: FragmentCustomersBinding? = null

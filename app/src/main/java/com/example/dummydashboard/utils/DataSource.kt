@@ -1,4 +1,4 @@
-package com.example.dummydashboard
+package com.example.dummydashboard.utils
 
 import com.example.dummydashboard.models.Customer
 

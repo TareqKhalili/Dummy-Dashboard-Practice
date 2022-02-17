@@ -1,6 +1,6 @@
-package com.example.dummydashboard
+package com.example.dummydashboard.models
 
-import com.example.dummydashboard.models.Customer
+import com.example.dummydashboard.utils.DataSource
 
 class CustomersViewModel {
     companion object {

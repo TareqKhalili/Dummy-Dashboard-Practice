@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.example.dummydashboard.adapters.FavoriteCustomersRecyclerAdapter
 import com.example.dummydashboard.databinding.FragmentFavoriteBinding
+import com.example.dummydashboard.models.CustomersViewModel
 
 class FavoriteFragment : Fragment() {
     private var _binding: FragmentFavoriteBinding? = null
