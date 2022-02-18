@@ -1,4 +1,4 @@
-# Foothill internship first proejct.
+# Foothill internship first project.
 ## Dummy customers dashboard
 ![](images/showcase.jpeg)
 
