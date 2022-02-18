@@ -10,9 +10,9 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.example.dummydashboard.models.CustomersViewModel
 import com.example.dummydashboard.R
 import com.example.dummydashboard.models.Customer
+import com.example.dummydashboard.models.CustomersViewModel
 
 
 open class CustomersRecyclerAdapter :
@@ -42,13 +42,13 @@ open class CustomersRecyclerAdapter :
         private val customerName = itemView.findViewById<TextView>(R.id.customer_name)
         private val customerImage = itemView.findViewById<ImageView>(R.id.customer_image)
 
-        open fun bind(customer: Customer) {
-            customerName.text = customer.customerName
+        private val requestOptions = RequestOptions()
+            .placeholder(R.drawable.ic_launcher_background)
+            .error(R.drawable.ic_launcher_background)
 
-            // using glide to load images
-            val requestOptions = RequestOptions()
-                .placeholder(R.drawable.ic_launcher_background)
-                .error(R.drawable.ic_launcher_background)
+
+        fun bind(customer: Customer) {
+            customerName.text = customer.customerName
 
             Glide.with(itemView.context)
                 .applyDefaultRequestOptions(requestOptions)
@@ -56,49 +56,50 @@ open class CustomersRecyclerAdapter :
                 .into(customerImage)
 
             itemView.setOnLongClickListener {
-                val popupMenu = PopupMenu(itemView.context, it)
-
-                popupMenu.setOnMenuItemClickListener { item ->
-                    when (item.itemId) {
-                        R.id.add_to_favorite -> {
-                            customer.favorite = !customer.favorite
-
-                            Toast.makeText(itemView.context,
-                                "${customer.customerName} added to favorite",
-                                Toast.LENGTH_SHORT).show()
-                            true
-                        }
-
-                        R.id.delete -> {
-                            val index = CustomersViewModel.customersList.indexOf(customer)
-                            delete(index)
-                        }
-
-                        else -> {
-                            false
-                        }
-                    }
-                }
-                popupMenu.inflate(R.menu.customers_menu_items)
-
                 try {
-                    val fieldMPopup = PopupMenu::class.java.getDeclaredField("mPopup")
-                    fieldMPopup.isAccessible = true
-                    val mPopup = fieldMPopup.get(popupMenu)
-                    mPopup.javaClass
-                        .getDeclaredMethod("setForceShowIcon", Boolean::class.java)
-                        .invoke(mPopup, true)
+                    handlePopUpMenu(it, customer)
                     true
                 } catch (error: Exception) {
-                    println(error.stackTrace)
+                    println(error.printStackTrace())
                     false
-                } finally {
-                    popupMenu.show()
                 }
             }
+
         }
 
-        open fun delete(index: Int): Boolean {
+
+        private fun handlePopUpMenu(view: View, customer: Customer) {
+            val popupMenu = PopupMenu(itemView.context, view)
+
+            popupMenu.setOnMenuItemClickListener { item ->
+                when (item.itemId) {
+                    R.id.add_to_favorite -> addToFavorite(customer)
+
+                    R.id.delete -> deleteCustomer(customer)
+
+                    else -> false
+                }
+            }
+
+            popupMenu.inflate(R.menu.customers_menu_items)
+
+            setupMenuIcons(popupMenu)
+        }
+
+
+        private fun addToFavorite(customer: Customer): Boolean {
+            customer.favorite = true
+            Toast.makeText(itemView.context,
+                "${customer.customerName} added to favorite",
+                Toast.LENGTH_SHORT).show()
+
+            return true
+        }
+
+
+        private fun deleteCustomer(customer: Customer): Boolean {
+            val index = CustomersViewModel.customersList.indexOf(customer)
+
             return try {
                 (CustomersViewModel.customersList as ArrayList).removeAt(index)
                 bindingAdapter?.notifyItemRemoved(index)
@@ -109,8 +110,26 @@ open class CustomersRecyclerAdapter :
                     Toast.LENGTH_SHORT).show()
                 false
             }
+
         }
 
+
+        private fun setupMenuIcons(popupMenu: PopupMenu): Boolean {
+            return try {
+                val fieldMPopup = PopupMenu::class.java.getDeclaredField("mPopup")
+                fieldMPopup.isAccessible = true
+                val mPopup = fieldMPopup.get(popupMenu)
+                mPopup.javaClass
+                    .getDeclaredMethod("setForceShowIcon", Boolean::class.java)
+                    .invoke(mPopup, true)
+                true
+            } catch (error: Exception) {
+                println(error.stackTrace)
+                false
+            } finally {
+                popupMenu.show()
+            }
+        }
     }
 }
 

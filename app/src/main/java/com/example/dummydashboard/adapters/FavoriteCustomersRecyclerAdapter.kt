@@ -10,9 +10,9 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.example.dummydashboard.models.CustomersViewModel
 import com.example.dummydashboard.R
 import com.example.dummydashboard.models.Customer
+import com.example.dummydashboard.models.CustomersViewModel
 
 class FavoriteCustomersRecyclerAdapter :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -40,16 +40,17 @@ class FavoriteCustomersRecyclerAdapter :
         itemView: View,
     ) : RecyclerView.ViewHolder(itemView) {
 
+
         private val customerName = itemView.findViewById<TextView>(R.id.customer_name)
         private val customerImage = itemView.findViewById<ImageView>(R.id.customer_image)
 
-        open fun bind(customer: Customer) {
-            customerName.text = customer.customerName
+        private val requestOptions = RequestOptions()
+            .placeholder(R.drawable.ic_launcher_background)
+            .error(R.drawable.ic_launcher_background)
 
-            // using glide to load images
-            val requestOptions = RequestOptions()
-                .placeholder(R.drawable.ic_launcher_background)
-                .error(R.drawable.ic_launcher_background)
+
+        fun bind(customer: Customer) {
+            customerName.text = customer.customerName
 
             Glide.with(itemView.context)
                 .applyDefaultRequestOptions(requestOptions)
@@ -57,64 +58,78 @@ class FavoriteCustomersRecyclerAdapter :
                 .into(customerImage)
 
             itemView.setOnLongClickListener {
-                val popupMenu = PopupMenu(itemView.context, it)
-
-                popupMenu.setOnMenuItemClickListener { item ->
-                    when (item.itemId) {
-                        R.id.remove_from_favorite -> {
-                            customer.favorite = !customer.favorite
-                            val index = CustomersViewModel.favoriteCustomersList.indexOf(customer)
-                            (CustomersViewModel.favoriteCustomersList as ArrayList).removeAt(index)
-                            bindingAdapter?.notifyItemRemoved(index)
-
-                            Toast.makeText(itemView.context,
-                                "${customer.customerName} Removed from to favorite",
-                                Toast.LENGTH_SHORT).show()
-                            true
-                        }
-
-                        R.id.delete -> {
-                            var index = CustomersViewModel.customersList.indexOf(customer)
-                            delete(index)
-                            index = CustomersViewModel.favoriteCustomersList.indexOf(customer)
-                            (CustomersViewModel.favoriteCustomersList as ArrayList).removeAt(index)
-                            bindingAdapter?.notifyItemRemoved(index)
-                            true
-                        }
-
-                        else -> {
-                            false
-                        }
-                    }
-                }
-                popupMenu.inflate(R.menu.favorite_menu_items)
-
                 try {
-                    val fieldMPopup = PopupMenu::class.java.getDeclaredField("mPopup")
-                    fieldMPopup.isAccessible = true
-                    val mPopup = fieldMPopup.get(popupMenu)
-                    mPopup.javaClass
-                        .getDeclaredMethod("setForceShowIcon", Boolean::class.java)
-                        .invoke(mPopup, true)
+                    handlePopUpMenu(it, customer)
                     true
                 } catch (error: Exception) {
-                    println(error.stackTrace)
+                    println(error.printStackTrace())
                     false
-                } finally {
-                    popupMenu.show()
                 }
             }
+
         }
 
-        open fun delete(index: Int): Boolean {
+
+        private fun handlePopUpMenu(view: View, customer: Customer) {
+            val popupMenu = PopupMenu(itemView.context, view)
+
+            popupMenu.setOnMenuItemClickListener { item ->
+                when (item.itemId) {
+                    R.id.remove_from_favorite -> removeFromFavorite(customer)
+
+                    R.id.delete -> deleteCustomer(customer)
+
+                    else -> false
+                }
+            }
+
+            popupMenu.inflate(R.menu.favorite_menu_items)
+
+            setupMenuIcons(popupMenu)
+        }
+
+
+        private fun removeFromFavorite(customer: Customer): Boolean {
+            customer.favorite = false
+            val index = CustomersViewModel.favoriteCustomersList.indexOf(customer)
+            (CustomersViewModel.favoriteCustomersList as ArrayList).removeAt(index)
+            bindingAdapter?.notifyItemRemoved(index)
+            return true
+        }
+
+
+        private fun deleteCustomer(customer: Customer): Boolean {
+            var index = CustomersViewModel.customersList.indexOf(customer)
+
             return try {
                 (CustomersViewModel.customersList as ArrayList).removeAt(index)
+                index = CustomersViewModel.favoriteCustomersList.indexOf(customer)
+                (CustomersViewModel.favoriteCustomersList as ArrayList).removeAt(index)
+                bindingAdapter?.notifyItemRemoved(index)
                 true
             } catch (error: Exception) {
                 Toast.makeText(itemView.context,
                     "Failed to delete",
                     Toast.LENGTH_SHORT).show()
                 false
+            }
+        }
+
+
+        private fun setupMenuIcons(popupMenu: PopupMenu): Boolean {
+            return try {
+                val fieldMPopup = PopupMenu::class.java.getDeclaredField("mPopup")
+                fieldMPopup.isAccessible = true
+                val mPopup = fieldMPopup.get(popupMenu)
+                mPopup.javaClass
+                    .getDeclaredMethod("setForceShowIcon", Boolean::class.java)
+                    .invoke(mPopup, true)
+                true
+            } catch (error: Exception) {
+                println(error.stackTrace)
+                false
+            } finally {
+                popupMenu.show()
             }
         }
 
