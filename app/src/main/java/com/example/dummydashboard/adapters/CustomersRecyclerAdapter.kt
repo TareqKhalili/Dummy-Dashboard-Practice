@@ -4,43 +4,38 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.dummydashboard.R
-import com.example.dummydashboard.databinding.CustomerItemBinding
+import com.example.dummydashboard.databinding.CustomerListItemBinding
 import com.example.dummydashboard.models.Customer
 import com.example.dummydashboard.models.CustomersViewModel
+import com.example.dummydashboard.utils.CustomerDiffItemCallback
 import com.example.dummydashboard.utils.setupIcons
 
 
-class CustomersRecyclerAdapter :
-    RecyclerView.Adapter<CustomersRecyclerAdapter.CustomersViewHolder>() {
+class CustomersRecyclerAdapter(private val viewModel: CustomersViewModel) :
+    ListAdapter<Customer, CustomersRecyclerAdapter.CustomersViewHolder>(CustomerDiffItemCallback()) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomersViewHolder {
         return CustomersViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context),
-            R.layout.customer_item,
+            R.layout.customer_list_item,
             parent,
-            false))
+            false), viewModel)
     }
 
     override fun onBindViewHolder(holder: CustomersViewHolder, position: Int) {
-        holder.bind(CustomersViewModel.customersList[position])
+        holder.bind(getItem(position))
     }
 
-    override fun getItemCount(): Int {
-        return CustomersViewModel.customersList.size
-    }
-
-    fun submitList(customersList: List<Customer>) {
-        CustomersViewModel.customersList = customersList
-    }
 
     class CustomersViewHolder(
-        itemView: CustomerItemBinding,
+        itemView: CustomerListItemBinding,
+        private val viewModel: CustomersViewModel,
     ) : RecyclerView.ViewHolder(itemView.root) {
 
         private val customerName = itemView.customerName
@@ -77,9 +72,9 @@ class CustomersRecyclerAdapter :
 
             popupMenu.setOnMenuItemClickListener { item ->
                 when (item.itemId) {
-                    R.id.add_to_favorite -> addToFavorite(customer)
+                    R.id.add_to_favorite -> viewModel.addToFavorite(customer)
 
-                    R.id.delete -> deleteCustomer(customer)
+                    R.id.delete -> viewModel.deleteCustomer(customer)
 
                     else -> false
                 }
@@ -89,34 +84,6 @@ class CustomersRecyclerAdapter :
 
             popupMenu.setupIcons()
         }
-
-
-        private fun addToFavorite(customer: Customer): Boolean {
-            customer.favorite = true
-            Toast.makeText(itemView.context,
-                "${customer.customerName} added to favorite",
-                Toast.LENGTH_SHORT).show()
-
-            return true
-        }
-
-
-        private fun deleteCustomer(customer: Customer): Boolean {
-            val index = CustomersViewModel.customersList.indexOf(customer)
-
-            return try {
-                (CustomersViewModel.customersList as ArrayList).removeAt(index)
-                bindingAdapter?.notifyItemRemoved(index)
-                true
-            } catch (error: Exception) {
-                Toast.makeText(itemView.context,
-                    "Failed to delete",
-                    Toast.LENGTH_SHORT).show()
-                false
-            }
-
-        }
-
     }
 }
 

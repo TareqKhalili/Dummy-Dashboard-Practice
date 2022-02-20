@@ -2,7 +2,7 @@ package com.example.dummydashboard.utils
 
 import android.widget.PopupMenu
 
-fun PopupMenu.setupIcons() : Boolean {
+fun PopupMenu.setupIcons(): Boolean {
     return try {
         val fieldMPopup = PopupMenu::class.java.getDeclaredField("mPopup")
         fieldMPopup.isAccessible = true

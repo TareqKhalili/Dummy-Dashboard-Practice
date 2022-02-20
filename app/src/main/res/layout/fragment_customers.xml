@@ -9,12 +9,21 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <include
+            android:id="@+id/progress_bar"
+            layout="@layout/progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/customers_list" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/customers_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:layout_marginStart="5dp"
+            tools:listitem="@layout/customer_list_item"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="5dp"
             android:layout_marginBottom="5dp"
