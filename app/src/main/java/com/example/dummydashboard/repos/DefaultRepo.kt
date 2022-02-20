@@ -3,7 +3,8 @@ package com.example.dummydashboard.repos
 import androidx.lifecycle.MutableLiveData
 import com.example.dummydashboard.models.Customer
 import com.example.dummydashboard.utils.DataSource
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class DefaultRepo : DummyDataRepo {
@@ -13,7 +14,8 @@ class DefaultRepo : DummyDataRepo {
     }
 
     override suspend fun getCustomers() {
-        GlobalScope.launch {
+        val scope = CoroutineScope(Dispatchers.IO)
+        scope.launch {
             customers.postValue(DataSource().getDataSet())
         }
     }
