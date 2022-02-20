@@ -3,44 +3,48 @@ package com.example.dummydashboard.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.PopupMenu
-import android.widget.TextView
 import android.widget.Toast
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.dummydashboard.R
+import com.example.dummydashboard.databinding.CustomerItemBinding
 import com.example.dummydashboard.models.Customer
 import com.example.dummydashboard.models.CustomersViewModel
+import com.example.dummydashboard.utils.setupIcons
 
 
-open class CustomersRecyclerAdapter :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class CustomersRecyclerAdapter :
+    RecyclerView.Adapter<CustomersRecyclerAdapter.CustomersViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return CustomersViewHolder(LayoutInflater.from(parent.context)
-            .inflate(R.layout.customer_item, parent, false))
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomersViewHolder {
+        return CustomersViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context),
+            R.layout.customer_item,
+            parent,
+            false))
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        (holder as CustomersViewHolder).bind(CustomersViewModel.customersList[position])
+    override fun onBindViewHolder(holder: CustomersViewHolder, position: Int) {
+        holder.bind(CustomersViewModel.customersList[position])
     }
 
     override fun getItemCount(): Int {
         return CustomersViewModel.customersList.size
     }
 
-    open fun submitList(customersList: List<Customer>) {
+    fun submitList(customersList: List<Customer>) {
         CustomersViewModel.customersList = customersList
     }
 
-    open class CustomersViewHolder(
-        itemView: View,
-    ) : RecyclerView.ViewHolder(itemView) {
+    class CustomersViewHolder(
+        itemView: CustomerItemBinding,
+    ) : RecyclerView.ViewHolder(itemView.root) {
 
-        private val customerName = itemView.findViewById<TextView>(R.id.customer_name)
-        private val customerImage = itemView.findViewById<ImageView>(R.id.customer_image)
+        private val customerName = itemView.customerName
+        private val customerImage = itemView.customerImage
 
         private val requestOptions = RequestOptions()
             .placeholder(R.drawable.ic_launcher_background)
@@ -83,7 +87,7 @@ open class CustomersRecyclerAdapter :
 
             popupMenu.inflate(R.menu.customers_menu_items)
 
-            setupMenuIcons(popupMenu)
+            popupMenu.setupIcons()
         }
 
 
@@ -113,23 +117,6 @@ open class CustomersRecyclerAdapter :
 
         }
 
-
-        private fun setupMenuIcons(popupMenu: PopupMenu): Boolean {
-            return try {
-                val fieldMPopup = PopupMenu::class.java.getDeclaredField("mPopup")
-                fieldMPopup.isAccessible = true
-                val mPopup = fieldMPopup.get(popupMenu)
-                mPopup.javaClass
-                    .getDeclaredMethod("setForceShowIcon", Boolean::class.java)
-                    .invoke(mPopup, true)
-                true
-            } catch (error: Exception) {
-                println(error.stackTrace)
-                false
-            } finally {
-                popupMenu.show()
-            }
-        }
     }
 }
 
