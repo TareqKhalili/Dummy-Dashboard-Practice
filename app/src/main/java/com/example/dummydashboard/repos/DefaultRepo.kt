@@ -1,6 +1,5 @@
 package com.example.dummydashboard.repos
 
-import androidx.lifecycle.MutableLiveData
 import com.example.dummydashboard.models.Customer
 import com.example.dummydashboard.utils.DataSource
 import kotlinx.coroutines.CoroutineScope
@@ -9,36 +8,40 @@ import kotlinx.coroutines.launch
 
 class DefaultRepo : DummyDataRepo {
     companion object {
-        val customers = MutableLiveData<MutableList<Customer>>()
-        val favoriteCustomers = MutableLiveData<MutableList<Customer>>()
+        private var customers = mutableListOf<Customer>()
     }
 
-    override suspend fun getCustomers() {
-        val scope = CoroutineScope(Dispatchers.IO)
-        scope.launch {
-            customers.postValue(DataSource().getDataSet())
+    override suspend fun getCustomers(): MutableList<Customer> {
+        if (customers.isEmpty()) {
+            val scope = CoroutineScope(Dispatchers.IO)
+            val routine = scope.launch {
+                customers.addAll(DataSource().getDataSet())
+            }
+            routine.join()
         }
+        return customers
     }
 
-    override fun deleteCustomer(customer: Customer) {
-        customers.value = customers.value?.filter {
+    override fun deleteCustomer(customer: Customer): MutableList<Customer> {
+        println(customer.customerName)
+        customers = customers.filter {
             it.customerName != customer.customerName
         } as MutableList<Customer>
         removeFromFavorite(customer)
+        return customers
     }
 
-    override fun addToFavorite(customer: Customer) {
+    override fun addToFavorite(customer: Customer): MutableList<Customer> {
         customer.favorite = true
-        favoriteCustomers.value = customers.value?.filter {
-            it.favorite
-        } as MutableList<Customer>
-        println(favoriteCustomers.value)
+        return customers
     }
 
-    override fun removeFromFavorite(customer: Customer) {
+    override fun removeFromFavorite(customer: Customer): MutableList<Customer> {
         customer.favorite = false
-        favoriteCustomers.value = customers.value?.filter {
-            it.favorite
-        } as MutableList<Customer>
+        return getFavoriteCustomers()
+    }
+
+    fun getFavoriteCustomers(): MutableList<Customer> {
+        return customers.filter { it.favorite } as MutableList<Customer>
     }
 }

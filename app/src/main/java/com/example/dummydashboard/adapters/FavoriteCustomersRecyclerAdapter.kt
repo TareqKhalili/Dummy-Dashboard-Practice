@@ -12,11 +12,11 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.dummydashboard.R
 import com.example.dummydashboard.databinding.CustomerListItemBinding
 import com.example.dummydashboard.models.Customer
-import com.example.dummydashboard.models.FavoriteCustomersViewModel
+import com.example.dummydashboard.models.CustomersViewModel
 import com.example.dummydashboard.utils.CustomerDiffItemCallback
 import com.example.dummydashboard.utils.setupIcons
 
-class FavoriteCustomersRecyclerAdapter(private val viewModel: FavoriteCustomersViewModel) :
+class FavoriteCustomersRecyclerAdapter(private val viewModel: CustomersViewModel) :
     ListAdapter<Customer, FavoriteCustomersRecyclerAdapter.FavoriteCustomersViewHolder>(
         CustomerDiffItemCallback()) {
 
@@ -34,7 +34,7 @@ class FavoriteCustomersRecyclerAdapter(private val viewModel: FavoriteCustomersV
 
     class FavoriteCustomersViewHolder(
         itemView: CustomerListItemBinding,
-        private val viewModel: FavoriteCustomersViewModel,
+        private val viewModel: CustomersViewModel,
     ) : RecyclerView.ViewHolder(itemView.root) {
 
         private val customerName = itemView.customerName

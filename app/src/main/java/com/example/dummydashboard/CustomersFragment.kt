@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.dummydashboard.adapters.CustomersRecyclerAdapter
 import com.example.dummydashboard.databinding.FragmentCustomersBinding
 import com.example.dummydashboard.models.CustomersViewModel
-import com.example.dummydashboard.repos.DefaultRepo
 
 class CustomersFragment : Fragment() {
     private var _binding: FragmentCustomersBinding? = null
@@ -29,8 +28,7 @@ class CustomersFragment : Fragment() {
         val adapter = CustomersRecyclerAdapter(viewModel)
         binding.customersList.adapter = adapter
 
-
-        DefaultRepo.customers.observe(viewLifecycleOwner) {
+        viewModel.customers.observe(viewLifecycleOwner) {
             it?.let {
                 adapter.submitList(it)
                 binding.progressBar.isVisible = false
@@ -39,6 +37,4 @@ class CustomersFragment : Fragment() {
 
         return view
     }
-
-
 }

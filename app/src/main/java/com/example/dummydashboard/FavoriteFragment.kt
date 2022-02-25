@@ -8,13 +8,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.dummydashboard.adapters.FavoriteCustomersRecyclerAdapter
 import com.example.dummydashboard.databinding.FragmentFavoriteBinding
-import com.example.dummydashboard.models.FavoriteCustomersViewModel
-import com.example.dummydashboard.repos.DefaultRepo
+import com.example.dummydashboard.models.CustomersViewModel
 
 class FavoriteFragment : Fragment() {
     private var _binding: FragmentFavoriteBinding? = null
     private val binding get() = _binding!!
-    private lateinit var viewModel: FavoriteCustomersViewModel
+    private lateinit var viewModel: CustomersViewModel
 
 
     override fun onCreateView(
@@ -24,13 +23,13 @@ class FavoriteFragment : Fragment() {
         _binding = FragmentFavoriteBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        viewModel = ViewModelProvider(this)[FavoriteCustomersViewModel::class.java]
-        binding.lifecycleOwner = viewLifecycleOwner
+        viewModel = ViewModelProvider(this)[CustomersViewModel::class.java]
 
         val adapter = FavoriteCustomersRecyclerAdapter(viewModel)
         binding.favoriteCustomersList.adapter = adapter
 
-        DefaultRepo.favoriteCustomers.observe(viewLifecycleOwner) {
+
+        viewModel.favoriteCustomers.observe(viewLifecycleOwner) {
             it?.let {
                 adapter.submitList(it)
             }

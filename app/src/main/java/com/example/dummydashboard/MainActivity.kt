@@ -16,16 +16,22 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
 
         binding.loginButton.setOnClickListener {
-            if (binding.usernameField.text.toString().trim() == "admin"
-                && binding.passwordField.text.toString() == "admin"
-            ) {
-                Intent(this, DashboardActivity::class.java).also {
-                    startActivity(it)
-                    finish()
-                }
-            } else {
-                Snackbar.make(view, "Wrong credentials", Snackbar.LENGTH_SHORT).show()
+//            if (binding.usernameField.text.toString().trim() == "admin"
+//                && binding.passwordField.text.toString() == "admin"
+//            ) {
+//                Intent(this, DashboardActivity::class.java).also {
+//                    startActivity(it)
+//                    finish()
+//                }
+//            } else {
+//                Snackbar.make(view, "Wrong credentials", Snackbar.LENGTH_SHORT).show()
+//            }
+
+            Intent(this, DashboardActivity::class.java).also {
+                startActivity(it)
+                finish()
             }
+
         }
 
 

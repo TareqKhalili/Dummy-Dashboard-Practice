@@ -23,7 +23,6 @@ class DashboardActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbar)
 
-
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
 
