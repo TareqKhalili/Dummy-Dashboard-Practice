@@ -15,6 +15,7 @@ class CustomersFragment : Fragment() {
     private var _binding: FragmentCustomersBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: CustomersViewModel
+    private lateinit var adapter: CustomersRecyclerAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,7 +26,7 @@ class CustomersFragment : Fragment() {
 
         viewModel = ViewModelProvider(this)[CustomersViewModel::class.java]
 
-        val adapter = CustomersRecyclerAdapter(viewModel)
+        adapter = CustomersRecyclerAdapter(viewModel)
         binding.customersList.adapter = adapter
 
         viewModel.customers.observe(viewLifecycleOwner) {
@@ -34,7 +35,11 @@ class CustomersFragment : Fragment() {
                 binding.progressBar.isVisible = false
             }
         }
-
         return view
+    }
+
+    override fun onStart() {
+        super.onStart()
+        println(viewModel.customers.value)
     }
 }

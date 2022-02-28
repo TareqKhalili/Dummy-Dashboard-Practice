@@ -23,11 +23,7 @@ class DefaultRepo : DummyDataRepo {
     }
 
     override fun deleteCustomer(customer: Customer): MutableList<Customer> {
-        println(customer.customerName)
-        customers = customers.filter {
-            it.customerName != customer.customerName
-        } as MutableList<Customer>
-        removeFromFavorite(customer)
+        customers.remove(customer)
         return customers
     }
 
@@ -38,10 +34,6 @@ class DefaultRepo : DummyDataRepo {
 
     override fun removeFromFavorite(customer: Customer): MutableList<Customer> {
         customer.favorite = false
-        return getFavoriteCustomers()
-    }
-
-    fun getFavoriteCustomers(): MutableList<Customer> {
-        return customers.filter { it.favorite } as MutableList<Customer>
+        return customers
     }
 }

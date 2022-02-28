@@ -28,10 +28,9 @@ class FavoriteFragment : Fragment() {
         val adapter = FavoriteCustomersRecyclerAdapter(viewModel)
         binding.favoriteCustomersList.adapter = adapter
 
-
-        viewModel.favoriteCustomers.observe(viewLifecycleOwner) {
+        viewModel.customers.observe(viewLifecycleOwner) {
             it?.let {
-                adapter.submitList(it)
+                adapter.submitList(it.filter { customer -> customer.favorite })
             }
         }
 

@@ -15,13 +15,6 @@ class CustomersViewModel : ViewModel() {
     val customers: LiveData<MutableList<Customer>>
         get() = _customers
 
-    private val _favoriteCustomers = MutableLiveData<MutableList<Customer>>()
-    val favoriteCustomers: LiveData<MutableList<Customer>>
-        get() {
-            _favoriteCustomers.value = dataSet.getFavoriteCustomers()
-            return _favoriteCustomers
-        }
-
     private val dataSet = DefaultRepo()
 
     init {
@@ -34,7 +27,6 @@ class CustomersViewModel : ViewModel() {
 
     fun deleteCustomer(customer: Customer): Boolean {
         _customers.value = dataSet.deleteCustomer(customer)
-        _favoriteCustomers.value = dataSet.getFavoriteCustomers()
         return true
     }
 
@@ -44,7 +36,7 @@ class CustomersViewModel : ViewModel() {
     }
 
     fun removeFromFavorite(customer: Customer): Boolean {
-        _favoriteCustomers.value = dataSet.removeFromFavorite(customer)
+        _customers.value = dataSet.removeFromFavorite(customer)
         return true
     }
 }
