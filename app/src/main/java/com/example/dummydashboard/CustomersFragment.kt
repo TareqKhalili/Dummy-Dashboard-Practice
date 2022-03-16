@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import com.example.dummydashboard.adapters.CustomersRecyclerAdapter
 import com.example.dummydashboard.databinding.FragmentCustomersBinding
 import com.example.dummydashboard.models.CustomersViewModel
@@ -14,7 +14,7 @@ import com.example.dummydashboard.models.CustomersViewModel
 class CustomersFragment : Fragment() {
     private var _binding: FragmentCustomersBinding? = null
     private val binding get() = _binding!!
-    private lateinit var viewModel: CustomersViewModel
+    private val viewModel: CustomersViewModel by activityViewModels()
     private lateinit var adapter: CustomersRecyclerAdapter
 
     override fun onCreateView(
@@ -23,8 +23,6 @@ class CustomersFragment : Fragment() {
     ): View {
         _binding = FragmentCustomersBinding.inflate(inflater, container, false)
         val view = binding.root
-
-        viewModel = ViewModelProvider(this)[CustomersViewModel::class.java]
 
         adapter = CustomersRecyclerAdapter(viewModel)
         binding.customersList.adapter = adapter
@@ -36,10 +34,5 @@ class CustomersFragment : Fragment() {
             }
         }
         return view
-    }
-
-    override fun onStart() {
-        super.onStart()
-        println(viewModel.customers.value)
     }
 }

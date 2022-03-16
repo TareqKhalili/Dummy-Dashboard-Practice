@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.dummydashboard.databinding.ActivityMainBinding
 import com.google.android.material.snackbar.Snackbar
 
-class MainActivity : AppCompatActivity() {
+class LogInActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {

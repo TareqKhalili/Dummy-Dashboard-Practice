@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import com.example.dummydashboard.adapters.FavoriteCustomersRecyclerAdapter
 import com.example.dummydashboard.databinding.FragmentFavoriteBinding
 import com.example.dummydashboard.models.CustomersViewModel
@@ -13,7 +13,7 @@ import com.example.dummydashboard.models.CustomersViewModel
 class FavoriteFragment : Fragment() {
     private var _binding: FragmentFavoriteBinding? = null
     private val binding get() = _binding!!
-    private lateinit var viewModel: CustomersViewModel
+    private val viewModel: CustomersViewModel by activityViewModels()
 
 
     override fun onCreateView(
@@ -22,8 +22,6 @@ class FavoriteFragment : Fragment() {
     ): View {
         _binding = FragmentFavoriteBinding.inflate(inflater, container, false)
         val view = binding.root
-
-        viewModel = ViewModelProvider(this)[CustomersViewModel::class.java]
 
         val adapter = FavoriteCustomersRecyclerAdapter(viewModel)
         binding.favoriteCustomersList.adapter = adapter
