@@ -1,6 +1,7 @@
-package com.example.dummydashboard.models
+package com.example.dummydashboard.presentation.viewModels
 
 import androidx.lifecycle.*
+import com.example.dummydashboard.models.Customer
 import com.example.dummydashboard.repos.FakeRepo
 import kotlinx.coroutines.launch
 
@@ -10,10 +11,16 @@ class CustomersViewModel : ViewModel() {
     val customers: LiveData<List<Customer>>
         get() = _customers
 
+    private val _isLoading = MutableLiveData(true)
+    val isLoading: LiveData<Boolean>
+        get() = _isLoading
+
+
 
     init {
         viewModelScope.launch {
             _customers.value = FakeRepo.getCustomers()
+            _isLoading.value = false
         }
     }
 
@@ -33,5 +40,9 @@ class CustomersViewModel : ViewModel() {
     fun removeFromFavorite(customer: Customer): Boolean {
         _customers.value = FakeRepo.removeFromFavorite(customer)
         return true
+    }
+
+    fun addCustomer() {
+        println("he3")
     }
 }

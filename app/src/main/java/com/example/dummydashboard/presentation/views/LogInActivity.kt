@@ -1,10 +1,9 @@
-package com.example.dummydashboard
+package com.example.dummydashboard.presentation.views
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.dummydashboard.databinding.ActivityMainBinding
-import com.google.android.material.snackbar.Snackbar
 
 class LogInActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -27,13 +26,11 @@ class LogInActivity : AppCompatActivity() {
 //                Snackbar.make(view, "Wrong credentials", Snackbar.LENGTH_SHORT).show()
 //            }
 
-            Intent(this, DashboardActivity::class.java).also {
+            Intent(this, MainActivity::class.java).also {
                 startActivity(it)
                 finish()
             }
 
         }
-
-
     }
 }

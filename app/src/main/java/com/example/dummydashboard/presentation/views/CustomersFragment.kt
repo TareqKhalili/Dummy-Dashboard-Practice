@@ -1,15 +1,18 @@
-package com.example.dummydashboard
+package com.example.dummydashboard.presentation.views
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.NavGraph
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
+import com.example.dummydashboard.R
 import com.example.dummydashboard.adapters.CustomersRecyclerAdapter
 import com.example.dummydashboard.databinding.FragmentCustomersBinding
-import com.example.dummydashboard.models.CustomersViewModel
+import com.example.dummydashboard.presentation.viewModels.CustomersViewModel
 
 class CustomersFragment : Fragment() {
     private var _binding: FragmentCustomersBinding? = null
@@ -30,9 +33,17 @@ class CustomersFragment : Fragment() {
         viewModel.customers.observe(viewLifecycleOwner) {
             it?.let {
                 adapter.submitList(it)
-                binding.progressBar.isVisible = false
             }
         }
+
+        viewModel.isLoading.observe(viewLifecycleOwner) {
+            binding.progressBar.visibility = if (it) View.VISIBLE else View.GONE
+        }
+
+        binding.addCustomer.setOnClickListener {
+            view.findNavController().navigate(R.id.action_customersFragment_to_cameraFragment)
+        }
+
         return view
     }
 }

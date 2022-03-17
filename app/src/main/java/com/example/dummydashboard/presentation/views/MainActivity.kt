@@ -1,4 +1,4 @@
-package com.example.dummydashboard
+package com.example.dummydashboard.presentation.views
 
 import android.os.Bundle
 import android.view.Menu
@@ -10,9 +10,10 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupWithNavController
+import com.example.dummydashboard.R
 import com.example.dummydashboard.databinding.ActivityDashboardBinding
 
-class DashboardActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDashboardBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {

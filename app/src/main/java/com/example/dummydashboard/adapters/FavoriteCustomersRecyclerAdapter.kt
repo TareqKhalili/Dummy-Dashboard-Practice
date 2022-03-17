@@ -12,7 +12,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.dummydashboard.R
 import com.example.dummydashboard.databinding.CustomerListItemBinding
 import com.example.dummydashboard.models.Customer
-import com.example.dummydashboard.models.CustomersViewModel
+import com.example.dummydashboard.presentation.viewModels.CustomersViewModel
 import com.example.dummydashboard.utils.CustomerDiffItemCallback
 import com.example.dummydashboard.utils.setupIcons
 

@@ -50,7 +50,7 @@ class DataSource {
             )
         }
 
-        delay(1).also {
+        delay(2000).also {
             return list
         }
     }

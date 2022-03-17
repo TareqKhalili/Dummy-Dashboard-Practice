@@ -7,12 +7,21 @@
 
     <fragment
         android:id="@+id/favoriteFragment"
-        android:name="com.example.dummydashboard.FavoriteFragment"
+        android:name="com.example.dummydashboard.presentation.views.FavoriteFragment"
         android:label="Favorite"
         tools:layout="@layout/fragment_favorite" />
     <fragment
         android:id="@+id/customersFragment"
-        android:name="com.example.dummydashboard.CustomersFragment"
+        android:name="com.example.dummydashboard.presentation.views.CustomersFragment"
         android:label="Dashboard"
-        tools:layout="@layout/fragment_customers" />
+        tools:layout="@layout/fragment_customers" >
+        <action
+            android:id="@+id/action_customersFragment_to_cameraFragment"
+            app:destination="@id/cameraFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/cameraFragment"
+        android:name="com.example.dummydashboard.presentation.views.CameraFragment"
+        android:label="fragment_camera"
+        tools:layout="@layout/fragment_camera" />
 </navigation>

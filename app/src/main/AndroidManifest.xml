@@ -12,11 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DummyDashboard">
         <activity
-            android:name=".DashboardActivity"
+            android:name=".presentation.views.MainActivity"
             android:label="Dashboard"
             android:exported="false" />
         <activity
-            android:name=".LogInActivity"
+            android:name=".presentation.views.LogInActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
