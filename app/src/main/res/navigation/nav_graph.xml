@@ -22,6 +22,25 @@
     <fragment
         android:id="@+id/cameraFragment"
         android:name="com.example.dummydashboard.presentation.views.CameraFragment"
-        android:label="fragment_camera"
-        tools:layout="@layout/fragment_camera" />
+        android:label="Take a good photo of you 😁"
+        tools:layout="@layout/fragment_camera" >
+        <action
+            android:id="@+id/action_cameraFragment_to_createCustomer"
+            app:destination="@id/createCustomer" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/createCustomer"
+        android:name="com.example.dummydashboard.presentation.views.CreateCustomer"
+        android:label="Create customer"
+        tools:layout="@layout/fragment_create_customer" >
+        <argument
+            android:name="ImageUri"
+            app:argType="android.net.Uri" />
+        <action
+            android:id="@+id/action_createCustomer_to_customersFragment"
+            app:destination="@id/customersFragment"
+            app:popUpTo="@id/createCustomer"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>

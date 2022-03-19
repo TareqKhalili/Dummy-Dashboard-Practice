@@ -46,4 +46,9 @@ object FakeRepo : DummyDataRepo {
         }
         return customers
     }
+
+    override fun addCustomer(customer: Customer): List<Customer> {
+        customers = customers + customer
+        return customers
+    }
 }

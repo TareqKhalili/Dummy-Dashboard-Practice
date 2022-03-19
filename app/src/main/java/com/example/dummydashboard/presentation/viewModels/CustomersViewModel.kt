@@ -16,7 +16,6 @@ class CustomersViewModel : ViewModel() {
         get() = _isLoading
 
 
-
     init {
         viewModelScope.launch {
             _customers.value = FakeRepo.getCustomers()
@@ -42,7 +41,7 @@ class CustomersViewModel : ViewModel() {
         return true
     }
 
-    fun addCustomer() {
-        println("he3")
+    fun addCustomer(customer: Customer) {
+        _customers.value = FakeRepo.addCustomer(customer)
     }
 }

@@ -6,7 +6,6 @@
     <string name="password_hint">Password</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="favorite">Favorite</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
@@ -25,4 +24,8 @@
     <string name="remove_from_favorite">Remove from favorite</string>
     <string name="add_customers">add customers</string>
     <string name="take_photo">Take Photo</string>
+    <string name="customer_photo">customer photo</string>
+    <string name="username">Username</string>
+    <string name="add_customer">Add customer</string>
+    <string name="favorite">Favorite</string>
 </resources>
