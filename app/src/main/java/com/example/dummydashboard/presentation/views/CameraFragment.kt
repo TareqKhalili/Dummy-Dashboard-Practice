@@ -6,9 +6,6 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
@@ -23,6 +20,8 @@ import java.util.*
 import android.provider.MediaStore
 
 import android.content.ContentValues
+import android.view.*
+import androidx.annotation.RequiresApi
 import androidx.navigation.findNavController
 
 
@@ -32,6 +31,7 @@ class CameraFragment : Fragment() {
 
     private var imageCapture: ImageCapture? = null
 
+    @RequiresApi(Build.VERSION_CODES.R)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -46,6 +46,11 @@ class CameraFragment : Fragment() {
                 ActivityCompat.requestPermissions(
                     it, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS
                 )
+                try {
+                    startCamera()
+                } catch (error: Exception) {
+                    Toast.makeText(it, "Access denied", Toast.LENGTH_SHORT).show()
+                }
             }
         }
 
@@ -161,6 +166,12 @@ class CameraFragment : Fragment() {
                 activity?.finish()
             }
         }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.R)
+    override fun onDestroy() {
+        super.onDestroy()
+        activity?.window?.insetsController?.show(WindowInsets.Type.statusBars())
     }
 
     companion object {

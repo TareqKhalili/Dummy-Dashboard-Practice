@@ -13,8 +13,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-402" />
-                            <option name="y" value="25" />
+                            <option name="x" value="-419" />
+                            <option name="y" value="191" />
                           </Point>
                         </option>
                         <option name="myPositions">
@@ -34,9 +34,18 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-181" />
-                            <option name="y" value="24" />
+                            <option name="x" value="-148" />
+                            <option name="y" value="-113" />
                           </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_createCustomer_to_customersFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
                         </option>
                       </LayoutPositions>
                     </value>
@@ -46,8 +55,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-650" />
-                            <option name="y" value="26" />
+                            <option name="x" value="-685" />
+                            <option name="y" value="-1" />
                           </Point>
                         </option>
                         <option name="myPositions">
